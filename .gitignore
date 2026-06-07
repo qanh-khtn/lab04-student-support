@@ -3,4 +3,4 @@
 *.log
 
 screenshots/
-docs/
+storage/remember_tokens.json
