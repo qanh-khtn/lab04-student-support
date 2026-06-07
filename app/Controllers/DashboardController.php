@@ -37,6 +37,27 @@ class DashboardController
     // -------------------------------------------------------
     // GET /session-demo — returns session info as JSON (debug)
     // -------------------------------------------------------
+    public function auditLog(): void
+    {
+        require_login();
+
+        if (($_SESSION['role'] ?? '') !== 'admin') {
+            http_response_code(403);
+            die('Chỉ admin mới xem được audit log.');
+        }
+
+        $logFile = __DIR__ . '/../../storage/audit.log';
+        $lines   = file_exists($logFile)
+            ? array_reverse(file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES))
+            : [];
+
+        view('audit_log', [
+            'view'      => 'audit_log',
+            'pageTitle' => 'Audit Log',
+            'lines'     => $lines,
+        ]);
+    }
+
     public function sessionDemo(): void
     {
         require_login();

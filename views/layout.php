@@ -16,6 +16,9 @@
     <a href="/dashboard" <?= (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/dashboard') ? 'class="active"' : '' ?>>Bảng điều khiển</a>
     <?php if (is_logged_in()): ?>
         <a href="/session-demo">Demo phiên</a>
+        <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+            <a href="/audit-log">Audit Log</a>
+        <?php endif; ?>
         <form method="post" action="/logout" class="inline-form">
             <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
             <button type="submit" class="link-btn">Đăng xuất</button>

@@ -56,6 +56,17 @@ function csrf_verify(): void
     }
 }
 
+function audit_log(string $event, array $context = []): void
+{
+    $logFile = __DIR__ . '/../../storage/audit.log';
+    $ip      = $_SERVER['REMOTE_ADDR'] ?? '-';
+    $parts   = ['[' . date('Y-m-d H:i:s') . ']', $event, 'ip=' . $ip];
+    foreach ($context as $k => $v) {
+        $parts[] = $k . '=' . $v;
+    }
+    file_put_contents($logFile, implode(' ', $parts) . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
+
 function check_session_timeout(): void
 {
     $idleLimit = (int) ($_ENV['SESSION_IDLE_LIMIT'] ?? 900);
@@ -66,6 +77,7 @@ function check_session_timeout(): void
 
     $last = $_SESSION['last_activity_at'] ?? 0;
     if ($last > 0 && (time() - $last) > $idleLimit) {
+        audit_log('SESSION_TIMEOUT', ['user_id' => $_SESSION['user_id'] ?? '-']);
         $_SESSION = [];
         session_regenerate_id(true);
         flash_set('error', 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');

@@ -78,6 +78,7 @@ class TicketController
         // --- All validation passed: save + PRG ---
         $this->saveTicket($data);
         $_SESSION['last_ticket_submit_at'] = time();
+        audit_log('TICKET_SUBMITTED', ['email' => $data['email']]);
 
         flash_set('success', 'Yêu cầu hỗ trợ đã được gửi thành công! Mã yêu cầu của bạn sẽ được xử lý trong vòng 24h.');
         redirect('/tickets');
@@ -94,13 +95,14 @@ class TicketController
 
         // Honeypot: real users never fill this hidden field
         if ($data['website'] !== '') {
+            audit_log('HONEYPOT_TRIGGERED');
             $errors['_global'] = 'Yêu cầu bị từ chối do phát hiện hành vi tự động (honeypot).';
-            return $errors; // short-circuit, don't bother validating
+            return $errors;
         }
 
-        // Rate limit: block submitting more than once in 5 seconds
         $lastSubmit = $_SESSION['last_ticket_submit_at'] ?? 0;
         if ($lastSubmit > 0 && (time() - $lastSubmit) < 5) {
+            audit_log('RATE_LIMIT_BLOCKED', ['email' => $data['email']]);
             $errors['_global'] = 'Bạn gửi yêu cầu quá nhanh. Vui lòng thử lại sau vài giây.';
             return $errors;
         }

@@ -46,6 +46,7 @@ $router->post('/logout',  [AuthController::class, 'logout']);
 
 $router->get('/dashboard',    [DashboardController::class, 'index']);
 $router->get('/session-demo', [DashboardController::class, 'sessionDemo']);
+$router->get('/audit-log',    [DashboardController::class, 'auditLog']);
 
 $method = $_SERVER['REQUEST_METHOD'];
 $path   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
