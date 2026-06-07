@@ -1,0 +1,12 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^Get-Command firefox -ErrorAction SilentlyContinue; if \\(\\$\\?\\) \\{ Write-Host \"Firefox found\" \\} else \\{ Write-Host \"Firefox not found\" \\}$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^if \\(!\\(Test-Path \"screenshots\"\\)\\) \\{ New-Item -ItemType Directory -Path \"screenshots\" \\}$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
