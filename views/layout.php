@@ -17,6 +17,7 @@
     <?php if (is_logged_in()): ?>
         <a href="/session-demo">Demo phiên</a>
         <form method="post" action="/logout" class="inline-form">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
             <button type="submit" class="link-btn">Đăng xuất</button>
         </form>
     <?php else: ?>

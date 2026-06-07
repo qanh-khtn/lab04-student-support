@@ -8,6 +8,7 @@
     </div>
 
     <form method="post" action="/login" class="card" novalidate>
+        <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
         <div class="form-group">
             <label for="email">Email</label>

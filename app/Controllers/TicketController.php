@@ -54,7 +54,8 @@ class TicketController
     // -------------------------------------------------------
     public function store(): void
     {
-        // Read input safely
+        csrf_verify();
+
         $data = [
             'full_name'    => trim($_POST['full_name']    ?? ''),
             'email'        => trim($_POST['email']        ?? ''),

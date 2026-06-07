@@ -11,6 +11,7 @@
 <?php endif; ?>
 
 <form method="post" action="/tickets" class="card" novalidate>
+    <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
 
     <div class="form-row">
         <div class="form-group">

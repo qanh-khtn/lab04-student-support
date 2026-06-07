@@ -68,6 +68,7 @@
         <hr class="divider">
 
         <form method="post" action="/logout">
+            <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
             <button type="submit" class="btn btn-danger">Đăng xuất</button>
         </form>
     </div>

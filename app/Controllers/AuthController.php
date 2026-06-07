@@ -42,6 +42,8 @@ class AuthController
 
     public function handleLogin(): void
     {
+        csrf_verify();
+
         $email    = trim($_POST['email']    ?? '');
         $password = $_POST['password']      ?? '';
         $remember = ($_POST['remember_me']  ?? '') === '1';
@@ -92,6 +94,8 @@ class AuthController
 
     public function logout(): void
     {
+        csrf_verify();
+
         $_SESSION = [];
         session_regenerate_id(true);
         flash_set('success', 'Đã đăng xuất thành công. Phiên làm việc cũ đã bị xóa sạch.');

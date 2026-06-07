@@ -2,26 +2,17 @@
 
 declare(strict_types=1);
 
-// -------------------------------------------------------
-// Output escaping
-// -------------------------------------------------------
 function h(?string $value): string
 {
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
-// -------------------------------------------------------
-// Redirect
-// -------------------------------------------------------
 function redirect(string $path): void
 {
     header('Location: ' . $path);
     exit;
 }
 
-// -------------------------------------------------------
-// Flash messages (one-time session values)
-// -------------------------------------------------------
 function flash_set(string $key, mixed $value): void
 {
     $_SESSION['_flash'][$key] = $value;
@@ -34,9 +25,6 @@ function flash_get(string $key, mixed $default = null): mixed
     return $value;
 }
 
-// -------------------------------------------------------
-// Auth helpers
-// -------------------------------------------------------
 function is_logged_in(): bool
 {
     return isset($_SESSION['user_id']);
@@ -50,13 +38,27 @@ function require_login(): void
     }
 }
 
-// -------------------------------------------------------
-// Session timeout (idle-based)
-// Adjust IDLE_LIMIT for demo: default 15 minutes; set 60 sec for T15 test
-// -------------------------------------------------------
+function csrf_token(): string
+{
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrf_verify(): void
+{
+    $submitted = $_POST['csrf_token'] ?? '';
+    $stored    = $_SESSION['csrf_token'] ?? '';
+    if ($stored === '' || !hash_equals($stored, $submitted)) {
+        http_response_code(419);
+        die('Token bảo mật không hợp lệ. Vui lòng tải lại trang và thử lại.');
+    }
+}
+
 function check_session_timeout(): void
 {
-    $idleLimit = (int) ($_ENV['SESSION_IDLE_LIMIT'] ?? 6); // 900 = 15 minutes
+    $idleLimit = (int) ($_ENV['SESSION_IDLE_LIMIT'] ?? 900);
 
     if (!isset($_SESSION['user_id'])) {
         return;
@@ -73,9 +75,6 @@ function check_session_timeout(): void
     $_SESSION['last_activity_at'] = time();
 }
 
-// -------------------------------------------------------
-// Basic user-agent context check (demo-level session binding)
-// -------------------------------------------------------
 function check_session_context(): void
 {
     if (!isset($_SESSION['user_id'])) {
@@ -93,32 +92,6 @@ function check_session_context(): void
     }
 }
 
-// -------------------------------------------------------
-// Clean logout: wipe session data, destroy session, clear cookie
-// -------------------------------------------------------
-function logout_clean(): void
-{
-    $_SESSION = [];
-
-    if (ini_get('session.use_cookies')) {
-        $params = session_get_cookie_params();
-        setcookie(
-            session_name(),
-            '',
-            time() - 42000,
-            $params['path'],
-            $params['domain'],
-            $params['secure'],
-            $params['httponly']
-        );
-    }
-
-    session_destroy();
-}
-
-// -------------------------------------------------------
-// View renderer
-// -------------------------------------------------------
 function view(string $viewName, array $data = []): void
 {
     extract($data);
