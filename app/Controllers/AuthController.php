@@ -92,9 +92,8 @@ class AuthController
 
     public function logout(): void
     {
-        logout_clean();
-
-        session_start();
+        $_SESSION = [];
+        session_regenerate_id(true);
         flash_set('success', 'Đã đăng xuất thành công. Phiên làm việc cũ đã bị xóa sạch.');
         redirect('/login');
     }

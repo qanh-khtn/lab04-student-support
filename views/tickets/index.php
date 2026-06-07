@@ -29,13 +29,7 @@
             <?php foreach (array_reverse($items) as $item): ?>
             <tr>
                 <td><strong><?= h($item['id']) ?></strong></td>
-                <td>
-                    <?php if (preg_match('/[<>]/', $item['full_name'])): ?>
-                        <span class="badge badge-urgent">Họ tên không hợp lệ</span>
-                    <?php else: ?>
-                        <?= h($item['full_name']) ?>
-                    <?php endif; ?>
-                </td>
+                <td><?= h($item['full_name']) ?></td>
                 <td><?= h($item['email']) ?></td>
                 <td><?= h($item['student_id'] ?: '-') ?></td>
                 <td><?= h($supportTypes[$item['support_type']] ?? $item['support_type']) ?></td>

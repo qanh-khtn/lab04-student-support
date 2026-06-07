@@ -56,16 +56,16 @@ function require_login(): void
 // -------------------------------------------------------
 function check_session_timeout(): void
 {
-    $idleLimit = (int) ($_ENV['SESSION_IDLE_LIMIT'] ?? 900); // 900 = 15 minutes
+    $idleLimit = (int) ($_ENV['SESSION_IDLE_LIMIT'] ?? 6); // 900 = 15 minutes
 
     if (!isset($_SESSION['user_id'])) {
         return;
     }
 
-    $last = $_SESSION['last_activity_at'] ?? time();
-    if (time() - $last > $idleLimit) {
-        logout_clean();
-        session_start();
+    $last = $_SESSION['last_activity_at'] ?? 0;
+    if ($last > 0 && (time() - $last) > $idleLimit) {
+        $_SESSION = [];
+        session_regenerate_id(true);
         flash_set('error', 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
         redirect('/login');
     }
@@ -86,8 +86,8 @@ function check_session_context(): void
     $savedAgent   = $_SESSION['user_agent'] ?? '';
 
     if ($savedAgent !== '' && $savedAgent !== $currentAgent) {
-        logout_clean();
-        session_start();
+        $_SESSION = [];
+        session_regenerate_id(true);
         flash_set('error', 'Phiên có dấu hiệu bất thường. Vui lòng đăng nhập lại.');
         redirect('/login');
     }

@@ -109,8 +109,6 @@ class TicketController
         // full_name: required, min 2 chars
         if ($data['full_name'] === '') {
             $errors['full_name'] = 'Vui lòng nhập họ tên.';
-        } elseif (preg_match('/[<>]/', $data['full_name'])) {
-            $errors['full_name'] = 'Họ tên không được chứa ký tự HTML hoặc script.';
         } elseif (mb_strlen($data['full_name']) < 2) {
             $errors['full_name'] = 'Họ tên phải có ít nhất 2 ký tự.';
         } elseif (mb_strlen($data['full_name']) > 100) {
