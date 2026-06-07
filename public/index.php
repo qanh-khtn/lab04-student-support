@@ -29,6 +29,7 @@ session_set_cookie_params([
 
 session_start();
 
+check_remember_me();
 check_session_timeout();
 check_session_context();
 

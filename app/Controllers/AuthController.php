@@ -87,7 +87,8 @@ class AuthController
         audit_log('LOGIN_SUCCESS', ['user_id' => $user['id'], 'email' => $email]);
 
         if ($remember) {
-            flash_set('success', 'Đăng nhập thành công! Remember me trong Lab04 chỉ giới thiệu rủi ro, không lưu password trong cookie.');
+            set_remember_token($user['id'], $user['name'], $user['role']);
+            flash_set('success', 'Đăng nhập thành công! Đã lưu "Ghi nhớ đăng nhập" — token an toàn 30 ngày, không lưu mật khẩu trong cookie.');
         } else {
             flash_set('success', 'Đăng nhập thành công! Session ID đã được regenerate sau login.');
         }
@@ -100,6 +101,7 @@ class AuthController
         csrf_verify();
 
         audit_log('LOGOUT', ['user_id' => $_SESSION['user_id'] ?? '-']);
+        clear_remember_token();
         $_SESSION = [];
         session_regenerate_id(true);
         flash_set('success', 'Đã đăng xuất thành công. Phiên làm việc cũ đã bị xóa sạch.');
