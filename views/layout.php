@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= isset($pageTitle) ? h($pageTitle) . ' - ' : '' ?>Cổng hỗ trợ sinh viên</title>
     <link rel="stylesheet" href="/assets/style.css">
-    <script>(function(){var t=localStorage.getItem('theme')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}());</script>
+    <script src="/assets/app.js"></script>
 </head>
 <body>
 
@@ -65,20 +65,5 @@
     </span>
 </button>
 
-<script>
-(function () {
-    var root = document.documentElement;
-    var btn  = document.getElementById('theme-toggle');
-    if (btn) {
-        btn.addEventListener('click', function () {
-            var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            document.body.classList.add('theme-transitioning');
-            root.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            setTimeout(function () { document.body.classList.remove('theme-transitioning'); }, 350);
-        });
-    }
-}());
-</script>
 </body>
 </html>
