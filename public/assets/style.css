@@ -672,39 +672,61 @@ html[data-theme="dark"] .alert-info    { background: var(--primary-soft); color:
     border: none;
     border-radius: 50%;
     background: var(--primary);
-    box-shadow: 0 4px 18px rgba(23,105,224,.45);
+    box-shadow: 0 4px 20px rgba(23,105,224,.45);
     cursor: pointer;
-    font-size: 20px;
-    line-height: 1;
-    transition: background .2s ease, box-shadow .2s ease, transform .18s ease;
+    color: #fff;
+    transition: background .25s ease, box-shadow .25s ease, transform .18s ease;
 }
 
 html[data-theme="dark"] .theme-toggle {
-    background: #2d3748;
-    box-shadow: 0 4px 18px rgba(0,0,0,.55);
+    background: #2d3a52;
+    box-shadow: 0 4px 20px rgba(0,0,0,.55);
 }
 
 .theme-toggle:hover {
     transform: scale(1.12);
-    box-shadow: 0 6px 24px rgba(23,105,224,.6);
+    box-shadow: 0 6px 28px rgba(23,105,224,.6);
 }
 
 html[data-theme="dark"] .theme-toggle:hover {
-    box-shadow: 0 6px 24px rgba(0,0,0,.65);
+    box-shadow: 0 6px 28px rgba(0,0,0,.65);
 }
 
-.theme-toggle .toggle-icon {
-    display: inline-block;
-    transition: transform 0.32s cubic-bezier(.34,1.56,.64,1), opacity 0.18s ease;
-    will-change: transform, opacity;
+.theme-toggle-inner {
+    position: relative;
+    width: 22px;
+    height: 22px;
+}
+
+.toggle-sun,
+.toggle-moon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #fff;
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+
+.toggle-sun {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.toggle-moon {
+    opacity: 0;
+    transform: scale(0.3) rotate(90deg);
+}
+
+html[data-theme="dark"] .toggle-sun {
+    opacity: 0;
+    transform: scale(0.3) rotate(-90deg);
+}
+
+html[data-theme="dark"] .toggle-moon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
 
 @media (max-width: 520px) {
-    .theme-toggle {
-        bottom: 18px;
-        right: 18px;
-        width: 42px;
-        height: 42px;
-        font-size: 18px;
-    }
+    .theme-toggle { bottom: 18px; right: 18px; width: 44px; height: 44px; }
 }
