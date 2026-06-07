@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= isset($pageTitle) ? h($pageTitle) . ' - ' : '' ?>Cổng hỗ trợ sinh viên</title>
     <link rel="stylesheet" href="/assets/style.css">
+    <script>(function(){var t=localStorage.getItem('theme')||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}());</script>
 </head>
 <body>
 
@@ -43,5 +44,56 @@
     <?php require view_path($view); ?>
 </main>
 
+
+<button id="theme-toggle" class="theme-toggle" aria-label="Chuyển giao diện sáng/tối">
+    <span class="toggle-icon">☀️</span>
+</button>
+
+<script>
+(function () {
+    var root = document.documentElement;
+    var btn  = document.getElementById('theme-toggle');
+    var icon = btn && btn.querySelector('.toggle-icon');
+
+    function setIcon(theme) {
+        if (icon) icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+
+    setIcon(root.getAttribute('data-theme') || 'light');
+
+    if (btn) {
+        btn.addEventListener('click', function () {
+            var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+
+            if (icon) {
+                icon.style.transform = 'rotate(180deg) scale(0.4)';
+                icon.style.opacity   = '0';
+            }
+
+            setTimeout(function () {
+                document.body.classList.add('theme-transitioning');
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                setIcon(next);
+
+                if (icon) {
+                    icon.style.transition = 'none';
+                    icon.style.transform  = 'rotate(-180deg) scale(0.4)';
+                    icon.style.opacity    = '0';
+                    setTimeout(function () {
+                        icon.style.transition = '';
+                        icon.style.transform  = '';
+                        icon.style.opacity    = '1';
+                    }, 30);
+                }
+
+                setTimeout(function () {
+                    document.body.classList.remove('theme-transitioning');
+                }, 350);
+            }, 180);
+        });
+    }
+}());
+</script>
 </body>
 </html>

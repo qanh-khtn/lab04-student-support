@@ -537,3 +537,174 @@ ul li::marker { color: var(--primary); }
         padding: 11px 12px;
     }
 }
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+
+html[data-theme="dark"] {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-soft: #1c2230;
+    --surface-tint: #1c2840;
+    --text: #e2e8f0;
+    --muted: #8b98a9;
+    --line: #2d3748;
+    --line-strong: #3a4a60;
+    --primary: #58a6ff;
+    --primary-dark: #79b8ff;
+    --primary-soft: #1a2744;
+    --success: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.45);
+    --shadow-md: 0 14px 34px rgba(0,0,0,.55);
+}
+
+html[data-theme="dark"] body {
+    background: var(--bg);
+}
+
+html[data-theme="dark"] .navbar {
+    background: linear-gradient(90deg, #090d14 0%, #0d1e3d 100%);
+    border-bottom-color: rgba(255,255,255,.07);
+}
+
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="email"],
+html[data-theme="dark"] input[type="password"],
+html[data-theme="dark"] input[type="tel"],
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+    background: #1c2230;
+    color: var(--text);
+    border-color: var(--line-strong);
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus {
+    background: #1c2230;
+    box-shadow: 0 0 0 4px rgba(88,166,255,.15);
+}
+
+html[data-theme="dark"] input:hover:not(:focus),
+html[data-theme="dark"] select:hover:not(:focus),
+html[data-theme="dark"] textarea:hover:not(:focus) {
+    border-color: #526070;
+}
+
+html[data-theme="dark"] .table th {
+    background: #1c2230;
+    color: var(--muted);
+}
+
+html[data-theme="dark"] .table {
+    background: var(--surface);
+}
+
+html[data-theme="dark"] .table tbody tr:nth-child(even) td {
+    background: #141920;
+}
+
+html[data-theme="dark"] .table tbody tr:hover td {
+    background: var(--surface-tint);
+}
+
+html[data-theme="dark"] .page-header h1,
+html[data-theme="dark"] .feature-card h3 {
+    color: var(--text);
+}
+
+html[data-theme="dark"] label {
+    color: #aab4c4;
+}
+
+html[data-theme="dark"] code {
+    background: #1c2230;
+    color: #79b8ff;
+    border-color: var(--line);
+}
+
+html[data-theme="dark"] .hero {
+    background:
+        linear-gradient(135deg, rgba(9,13,20,.97) 0%, rgba(23,70,160,.93) 62%, rgba(14,80,68,.9) 100%),
+        linear-gradient(45deg, #0d1117, #1769e0);
+}
+
+html[data-theme="dark"] select option {
+    background: #1c2230;
+    color: var(--text);
+}
+
+html[data-theme="dark"] .alert-success { background: #0d2818; color: #4ade80; border-color: #1a4a2e; }
+html[data-theme="dark"] .alert-error   { background: #2a0e0e; color: #f87171; border-color: #5a1e1e; }
+html[data-theme="dark"] .alert-warning { background: #2a1f08; color: #fbbf24; border-color: #5a3e10; }
+html[data-theme="dark"] .alert-info    { background: var(--primary-soft); color: var(--primary); border-color: #1e3a5f; }
+
+/* Smooth theme transition — applied only during switch to avoid lag on hover */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+    transition:
+        background-color 0.28s ease,
+        color 0.22s ease,
+        border-color 0.28s ease,
+        box-shadow 0.28s ease !important;
+}
+
+/* ============================================================
+   THEME TOGGLE BUTTON
+   ============================================================ */
+
+.theme-toggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 4px 18px rgba(23,105,224,.45);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: background .2s ease, box-shadow .2s ease, transform .18s ease;
+}
+
+html[data-theme="dark"] .theme-toggle {
+    background: #2d3748;
+    box-shadow: 0 4px 18px rgba(0,0,0,.55);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 24px rgba(23,105,224,.6);
+}
+
+html[data-theme="dark"] .theme-toggle:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,.65);
+}
+
+.theme-toggle .toggle-icon {
+    display: inline-block;
+    transition: transform 0.32s cubic-bezier(.34,1.56,.64,1), opacity 0.18s ease;
+    will-change: transform, opacity;
+}
+
+@media (max-width: 520px) {
+    .theme-toggle {
+        bottom: 18px;
+        right: 18px;
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+}
